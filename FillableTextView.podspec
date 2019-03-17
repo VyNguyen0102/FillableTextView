@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'FillableTextView'
-  s.version          = '0.1.0'
+  s.version          = '1.0'
   s.summary          = 'Using for create fill in the blanks - especially leaning language grammar appication'
 
 # This description is used to generate tags and improve search results.
@@ -34,7 +34,9 @@ s.description      = <<-DESC
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'Vy Nguyen' => 'nguyenvanvy0102@gmail.com' }
-  s.source           = { :git => 'https://github.com/VyNguyen0102/FillableTextView.git', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/VyNguyen0102/FillableTextView.git',
+                            :branch => 'master',
+                            :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '8.0'
