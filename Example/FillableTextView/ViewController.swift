@@ -25,7 +25,7 @@ class ViewController: UIViewController {
 }
 extension ViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        print(textView.text)
+        //print(textView.text)
     }
 }
 
