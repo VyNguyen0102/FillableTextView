@@ -17,19 +17,28 @@ Pod::Spec.new do |s|
 #   * Write the description between the DESC delimiters below.
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
-  s.description      = <<-DESC
-TODO: Add long description of the pod here.
-                       DESC
+s.description      = <<-DESC
+                        Using for create fill in the blanks
+                        especially leaning language grammar appication
 
-  s.homepage         = 'https://github.com/Vy Nguyen/FillableTextView'
+                        Feature:
+                        1. Custom textbox color, text color, font size.
+                        2. Select copy and paste.
+
+                        Comming soon:
+                        1. Custom text place holder (make it bigger).
+                        2. Allow drag and drop.
+                        DESC
+
+  s.homepage         = 'https://github.com/VyNguyen0102/FillableTextView'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'Vy Nguyen' => 'nguyenvanvy0102@gmail.com' }
-  s.source           = { :git => 'https://github.com/Vy Nguyen/FillableTextView.git', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/VyNguyen0102/FillableTextView.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '8.0'
-
+  s.swift_version = '4.2'
   s.source_files = 'FillableTextView/Classes/**/*'
   
   # s.resource_bundles = {

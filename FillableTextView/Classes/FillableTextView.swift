@@ -135,9 +135,7 @@ class FillableTextView: UITextView {
         guard let textRange = self.getTextRangeBy(range: range) else {
             return []
         }
-        guard let selectionRects: [UITextSelectionRect] = self.selectionRects(for: textRange) as? [UITextSelectionRect] else {
-            return []
-        }
+        let selectionRects: [UITextSelectionRect] = self.selectionRects(for: textRange)
 
         let rects = (selectionRects.map{ selectionRect in
             return CGRect.init(x: selectionRect.rect.origin.x, y: selectionRect.rect.origin.y + (selectionRect.rect.height * (frameHeightMultiple - 1)) , width: selectionRect.rect.width, height: selectionRect.rect.height / frameHeightMultiple)
