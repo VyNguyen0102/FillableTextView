@@ -316,3 +316,23 @@ extension FillableTextView: UITextViewDelegate {
         return delegateInterceptor?.textView?( textView, shouldInteractWith: textAttachment, in: characterRange) ?? true
     }
 }
+
+extension String {
+    func matches(for regex: String) -> [NSTextCheckingResult] {
+        do {
+            let regex = try NSRegularExpression(pattern: regex)
+            let results = regex.matches(in: self,
+                                        range: NSRange(self.startIndex..., in: self))
+            return results
+        } catch let error {
+            print("invalid regex: \(error.localizedDescription)")
+            return []
+        }
+    }
+    func getTextByRange(range: NSRange) -> String? {
+        if let textRange = Range.init(range, in: self) {
+            return String(self[textRange])
+        }
+        return nil
+    }
+}

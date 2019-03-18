@@ -15,10 +15,12 @@
 		2C8E41D43E185E62965404EC1F236FA0 /* FBSnapshotTestCase-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = E5179BCC19B8A4C9981ACE0E961B3942 /* FBSnapshotTestCase-dummy.m */; };
 		33CD52558D8E2F820100C8753AA2F32F /* SwiftSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499BB97C946EF5DFF46CB40D7D685EE1 /* SwiftSupport.swift */; };
 		3654C665A421841E83947108476D733B /* Pods-FillableTextView_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 39EE831F3B50897E62C4ED85E9D79633 /* Pods-FillableTextView_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		3924D092223EACBF007568D4 /* FillableTextViewStringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3924D08F223EACBF007568D4 /* FillableTextViewStringExtension.swift */; };
-		3924D093223EACBF007568D4 /* FillableTextViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3924D090223EACBF007568D4 /* FillableTextViewModel.swift */; };
-		3924D094223EACBF007568D4 /* FillableTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3924D091223EACBF007568D4 /* FillableTextView.swift */; };
-		5612BB5BDF139ED55523538A8E627530 /* FillableTextView-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 64F989242888AD7E818B508ED2EB04BA /* FillableTextView-dummy.m */; };
+		3926F747223FFF9100A0EE30 /* FillableTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3926F743223FFF8B00A0EE30 /* FillableTextView.swift */; };
+		3926F748223FFF9300A0EE30 /* FillableTextViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3926F742223FFF8B00A0EE30 /* FillableTextViewModel.swift */; };
+		3926F749223FFF9600A0EE30 /* FillableTextViewStringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3926F741223FFF8B00A0EE30 /* FillableTextViewStringExtension.swift */; };
+		3926F74A2240009400A0EE30 /* FillableTextViewStringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3926F741223FFF8B00A0EE30 /* FillableTextViewStringExtension.swift */; };
+		3926F74B2240009C00A0EE30 /* FillableTextViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3926F742223FFF8B00A0EE30 /* FillableTextViewModel.swift */; };
+		3926F74C2240009F00A0EE30 /* FillableTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3926F743223FFF8B00A0EE30 /* FillableTextView.swift */; };
 		6F01DF0FB5610799A00AC976F981EB18 /* UIApplication+StrictKeyWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 912F5BE09296F333F87046761D662D18 /* UIApplication+StrictKeyWindow.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		700E8CE0FDD79F21D428FC3D54D36C0E /* UIImage+Snapshot.h in Headers */ = {isa = PBXBuildFile; fileRef = D7B529483604801ABB9AB87D9F1FFAD9 /* UIImage+Snapshot.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		788A7026F4BED7F437E18ACBF35570DD /* Pods-FillableTextView_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 9DE77E237457D578E8521C3D5BAACB9D /* Pods-FillableTextView_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -83,9 +85,9 @@
 		32051AA97B272B45F7DC75136B6BE6E7 /* FillableTextView-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "FillableTextView-umbrella.h"; sourceTree = "<group>"; };
 		35A9991D347B8A22F76860B7C187E803 /* FillableTextView.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = FillableTextView.xcconfig; sourceTree = "<group>"; };
 		36B345ADB046FCC918B05EA789CD7D3A /* Pods-FillableTextView_Example-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-FillableTextView_Example-resources.sh"; sourceTree = "<group>"; };
-		3924D08F223EACBF007568D4 /* FillableTextViewStringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FillableTextViewStringExtension.swift; path = FillableTextView/Classes/FillableTextViewStringExtension.swift; sourceTree = "<group>"; };
-		3924D090223EACBF007568D4 /* FillableTextViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FillableTextViewModel.swift; path = FillableTextView/Classes/FillableTextViewModel.swift; sourceTree = "<group>"; };
-		3924D091223EACBF007568D4 /* FillableTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FillableTextView.swift; path = FillableTextView/Classes/FillableTextView.swift; sourceTree = "<group>"; };
+		3926F741223FFF8B00A0EE30 /* FillableTextViewStringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FillableTextViewStringExtension.swift; path = Classes/FillableTextViewStringExtension.swift; sourceTree = "<group>"; };
+		3926F742223FFF8B00A0EE30 /* FillableTextViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FillableTextViewModel.swift; path = Classes/FillableTextViewModel.swift; sourceTree = "<group>"; };
+		3926F743223FFF8B00A0EE30 /* FillableTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FillableTextView.swift; path = Classes/FillableTextView.swift; sourceTree = "<group>"; };
 		39EE831F3B50897E62C4ED85E9D79633 /* Pods-FillableTextView_Example-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-FillableTextView_Example-umbrella.h"; sourceTree = "<group>"; };
 		3C97720D07754B8F519F93D7CA5AD48B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		42E6541AA2134681758C84D0882AAD6E /* FBSnapshotTestCase.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = FBSnapshotTestCase.modulemap; sourceTree = "<group>"; };
@@ -184,6 +186,7 @@
 		2025C44142711F18D846E3687D5B6222 /* Development Pods */ = {
 			isa = PBXGroup;
 			children = (
+				3926F740223FFED400A0EE30 /* Sources */,
 				BAEBDD610FEEB45FC9F063AC37FECD69 /* FillableTextView */,
 			);
 			name = "Development Pods";
@@ -204,6 +207,17 @@
 				499BB97C946EF5DFF46CB40D7D685EE1 /* SwiftSupport.swift */,
 			);
 			name = SwiftSupport;
+			sourceTree = "<group>";
+		};
+		3926F740223FFED400A0EE30 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				3926F743223FFF8B00A0EE30 /* FillableTextView.swift */,
+				3926F742223FFF8B00A0EE30 /* FillableTextViewModel.swift */,
+				3926F741223FFF8B00A0EE30 /* FillableTextViewStringExtension.swift */,
+			);
+			name = Sources;
+			path = ../../Sources;
 			sourceTree = "<group>";
 		};
 		40330838477CEA9390E9441E55006DDA /* Pods-FillableTextView_Example */ = {
@@ -292,9 +306,6 @@
 		BAEBDD610FEEB45FC9F063AC37FECD69 /* FillableTextView */ = {
 			isa = PBXGroup;
 			children = (
-				3924D091223EACBF007568D4 /* FillableTextView.swift */,
-				3924D090223EACBF007568D4 /* FillableTextViewModel.swift */,
-				3924D08F223EACBF007568D4 /* FillableTextViewStringExtension.swift */,
 				C7B88F54CD9F3BC4C162DFA73056DE9D /* Pod */,
 				7B105042B8A5DC81428CCD51082422A7 /* Support Files */,
 			);
@@ -553,6 +564,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3926F74C2240009F00A0EE30 /* FillableTextView.swift in Sources */,
 				2C8E41D43E185E62965404EC1F236FA0 /* FBSnapshotTestCase-dummy.m in Sources */,
 				26D3EEFCFCA6DC9A4EB8EAD9703ECD98 /* FBSnapshotTestCase.m in Sources */,
 				E3B86D234BC43FB8877126BFDD760867 /* FBSnapshotTestCasePlatform.m in Sources */,
@@ -560,6 +572,8 @@
 				33CD52558D8E2F820100C8753AA2F32F /* SwiftSupport.swift in Sources */,
 				CFA869102744DB995F3AC930E96E3AFF /* UIApplication+StrictKeyWindow.m in Sources */,
 				D428498A1A70F3DB2F9D9C921989E6B8 /* UIImage+Compare.m in Sources */,
+				3926F74A2240009400A0EE30 /* FillableTextViewStringExtension.swift in Sources */,
+				3926F74B2240009C00A0EE30 /* FillableTextViewModel.swift in Sources */,
 				E7F0B09F899DBFE173736F8AE258ED48 /* UIImage+Diff.m in Sources */,
 				24DEF3AF3296F229268D80B50E433240 /* UIImage+Snapshot.m in Sources */,
 			);
@@ -569,10 +583,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3924D094223EACBF007568D4 /* FillableTextView.swift in Sources */,
-				3924D093223EACBF007568D4 /* FillableTextViewModel.swift in Sources */,
-				5612BB5BDF139ED55523538A8E627530 /* FillableTextView-dummy.m in Sources */,
-				3924D092223EACBF007568D4 /* FillableTextViewStringExtension.swift in Sources */,
+				3926F748223FFF9300A0EE30 /* FillableTextViewModel.swift in Sources */,
+				3926F747223FFF9100A0EE30 /* FillableTextView.swift in Sources */,
+				3926F749223FFF9600A0EE30 /* FillableTextViewStringExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -706,7 +719,7 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -897,7 +910,7 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
