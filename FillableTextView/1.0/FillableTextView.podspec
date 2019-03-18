@@ -41,7 +41,7 @@ s.description      = <<-DESC
 
   s.ios.deployment_target = '8.0'
   s.swift_version = '4.2'
-  s.source_files = 'FillableTextView/Classes/**/*'
+  s.source_files = 'Sources/Classes/**/*'
   
   # s.resource_bundles = {
   #   'FillableTextView' => ['FillableTextView/Assets/*.png']
