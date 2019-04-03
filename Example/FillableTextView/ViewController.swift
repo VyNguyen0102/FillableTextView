@@ -7,13 +7,16 @@
 //
 
 import UIKit
+import FillableTextView
 
 class ViewController: UIViewController {
 
-    @IBOutlet weak var textView: UITextView!
+    @IBOutlet weak var textView: FillableTextView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        textView.text = "meo meo []"
+        
         textView.delegate = self
     }
 

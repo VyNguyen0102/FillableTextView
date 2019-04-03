@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import CoreGraphics
 
-class FillableTextView: UITextView {
+public class FillableTextView: UITextView {
 
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!
@@ -27,7 +27,7 @@ class FillableTextView: UITextView {
         self.delegate = self
     }
     fileprivate weak var delegateInterceptor: UITextViewDelegate?
-    override var delegate: UITextViewDelegate? {
+    override public var delegate: UITextViewDelegate? {
         didSet {
             if !(delegate?.isEqual(self) ?? true) {
                 delegateInterceptor = delegate
@@ -51,19 +51,19 @@ class FillableTextView: UITextView {
             }
         }
     }
-    override func awakeFromNib() {
+    override public func awakeFromNib() {
         super.awakeFromNib()
         fillableText = text
     }
-    @IBInspectable var beginChar: String = "["
-    @IBInspectable var endChar: String = "]"
+    @IBInspectable public var beginChar: String = "["
+    @IBInspectable public var endChar: String = "]"
 
-    @IBInspectable var frameColor: UIColor = #colorLiteral(red: 0.01680417731, green: 0.1983509958, blue: 1, alpha: 1)
-    @IBInspectable var frameSelectedColor: UIColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
-    @IBInspectable var frameCornerRadius: CGFloat = 3.0
-    @IBInspectable var frameLineWidth: CGFloat = 1.0
-    @IBInspectable var frameHeightMultiple: CGFloat = 1.1
-    @IBInspectable var fillTextColor: UIColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
+    @IBInspectable public var frameColor: UIColor = #colorLiteral(red: 0.01680417731, green: 0.1983509958, blue: 1, alpha: 1)
+    @IBInspectable public var frameSelectedColor: UIColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+    @IBInspectable public var frameCornerRadius: CGFloat = 3.0
+    @IBInspectable public var frameLineWidth: CGFloat = 1.0
+    @IBInspectable public var frameHeightMultiple: CGFloat = 1.1
+    @IBInspectable public var fillTextColor: UIColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
 
     var blankString: String {
         return "\(beginChar)\(endChar)"
@@ -88,7 +88,7 @@ class FillableTextView: UITextView {
     var blankSpaceCharsAttributes: [NSAttributedString.Key: Any] {
         return [NSAttributedString.Key.foregroundColor: UIColor.clear]
     }
-    var textFillResult: String? {
+    public var textFillResult: String? {
         return fillableText?.replacingOccurrences(of: blankSpaceChars, with: "", options: .regularExpression)
     }
     var rectLayers = [CAShapeLayer]()
@@ -128,7 +128,7 @@ class FillableTextView: UITextView {
             return TextSpace.init(range: range, rects: textFrames, text: text)
         }
     }
-    var filledText: [String] {
+    public var filledText: [String] {
         return textSpaces.map({$0.text})
     }
     func getFramesByRange(range: NSRange) -> [CGRect] {
@@ -151,7 +151,7 @@ class FillableTextView: UITextView {
         }
     }
 
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override public func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.isSelectable = false
         self.isEditable = false
         guard let touchPoint = touches.first?.location(in: self) else {
@@ -215,14 +215,14 @@ class FillableTextView: UITextView {
         isNeedUpdateTextAttribute = false
     }
 
-    override func selectAll(_ sender: Any?) {
+    override public func selectAll(_ sender: Any?) {
         guard let space = textSpaces.getItemAt(range: self.selectedRange) else {
             super.selectAll(sender)
             return
         }
         self.selectedRange = space.textRange
     }
-    override func caretRect(for position: UITextPosition) -> CGRect {
+    override public func caretRect(for position: UITextPosition) -> CGRect {
         var rect = super.caretRect(for: position)
         rect.origin.y += (rect.size.height * (frameHeightMultiple - 1))
         return rect
@@ -246,13 +246,13 @@ class FillableTextView: UITextView {
         return self.textRange(from: start, to: end)
     }
 
-    override func canPaste(_ itemProviders: [NSItemProvider]) -> Bool {
+    override public func canPaste(_ itemProviders: [NSItemProvider]) -> Bool {
         print("can paste: false")
         return false
     }
 }
 extension FillableTextView: UITextViewDelegate {
-    func textViewDidChange(_ textView: UITextView) {
+    private func textViewDidChange(_ textView: UITextView) {
         if isNeedUpdateTextAttribute {
             self.updateTextAttributes()
         }
@@ -260,7 +260,7 @@ extension FillableTextView: UITextViewDelegate {
         delegateInterceptor?.textViewDidChange?(textView)
     }
 
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+    private func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if text.contains(beginChar) || text.contains(endChar) || !textSpaces.isInclude(range: range) {
             return false
         }
@@ -282,57 +282,37 @@ extension FillableTextView: UITextViewDelegate {
         return false
     }
 
-    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+    private func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
         return delegateInterceptor?.textViewShouldBeginEditing?(textView) ?? true
     }
 
-    func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
+    private func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
         return delegateInterceptor?.textViewShouldEndEditing?(textView) ?? true
     }
 
-    func textViewDidBeginEditing(_ textView: UITextView) {
+    private func textViewDidBeginEditing(_ textView: UITextView) {
         delegateInterceptor?.textViewDidBeginEditing?(textView)
     }
 
-    func textViewDidEndEditing(_ textView: UITextView) {
+    private func textViewDidEndEditing(_ textView: UITextView) {
         delegateInterceptor?.textViewDidEndEditing?(textView)
     }
 
     @available(iOS 10.0, *)
-    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+    private func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
         return delegateInterceptor?.textView?( textView, shouldInteractWith: URL, in: characterRange,interaction: interaction) ?? true
     }
 
     @available(iOS 10.0, *)
-    func textView(_ textView: UITextView, shouldInteractWith textAttachment: NSTextAttachment, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+    private func textView(_ textView: UITextView, shouldInteractWith textAttachment: NSTextAttachment, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
         return delegateInterceptor?.textView?(textView, shouldInteractWith: textAttachment, in: characterRange, interaction: interaction) ?? true
     }
 
-    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange) -> Bool {
+    private func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange) -> Bool {
         return delegateInterceptor?.textView?( textView, shouldInteractWith: URL, in: characterRange) ?? true
     }
 
-    func textView(_ textView: UITextView, shouldInteractWith textAttachment: NSTextAttachment, in characterRange: NSRange) -> Bool {
+    private func textView(_ textView: UITextView, shouldInteractWith textAttachment: NSTextAttachment, in characterRange: NSRange) -> Bool {
         return delegateInterceptor?.textView?( textView, shouldInteractWith: textAttachment, in: characterRange) ?? true
-    }
-}
-
-extension String {
-    func matches(for regex: String) -> [NSTextCheckingResult] {
-        do {
-            let regex = try NSRegularExpression(pattern: regex)
-            let results = regex.matches(in: self,
-                                        range: NSRange(self.startIndex..., in: self))
-            return results
-        } catch let error {
-            print("invalid regex: \(error.localizedDescription)")
-            return []
-        }
-    }
-    func getTextByRange(range: NSRange) -> String? {
-        if let textRange = Range.init(range, in: self) {
-            return String(self[textRange])
-        }
-        return nil
     }
 }
