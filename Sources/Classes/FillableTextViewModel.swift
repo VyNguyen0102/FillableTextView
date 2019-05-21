@@ -11,9 +11,11 @@ struct TextSpace {
     let range: NSRange
     let rects: [CGRect]
     let text: String
+    
     var textRange: NSRange {
         return NSRange.init(location: range.location + 1, length: range.length - 2)
     }
+    
     func isInclude(range: NSRange) -> Bool {
         if self.range.contains(range.location - 1) && self.range.contains(range.location + range.length) {
             return true
@@ -23,16 +25,19 @@ struct TextSpace {
 }
 
 extension Array where Element == TextSpace {
+    
     func getItemAt(range: NSRange) -> TextSpace? {
         return first(where: { item in
             return item.range.contains(range.location - 1) && item.range.contains(range.location + range.length)
         })
     }
+    
     func getCurrentRangeIndex(range: NSRange) -> Int? {
         return self.firstIndex { item in
             return item.range.contains(range.location - 1) && item.range.contains(range.location + range.length)
         }
     }
+    
     func getNextItemAt(range: NSRange) -> TextSpace? {
         guard let currentIndex = getCurrentRangeIndex(range: range) else {
             return nil
@@ -42,6 +47,7 @@ extension Array where Element == TextSpace {
         }
         return nil
     }
+    
     func isInclude(range: NSRange) -> Bool {
         for item in self {
             if item.isInclude(range: range) {
@@ -50,6 +56,7 @@ extension Array where Element == TextSpace {
         }
         return false
     }
+    
     func isEnableDelete(range: NSRange) -> Bool {
         for item in self {
             if item.textRange.contains(range.location) && item.textRange.contains(range.location + range.length - 1) {
@@ -58,6 +65,7 @@ extension Array where Element == TextSpace {
         }
         return false
     }
+    
     func isEditable(range: NSRange) -> (Bool, Bool) {
         for item in self {
             if item.range.contains(range.location) && item.range.contains(range.location + range.length - 1) {
@@ -66,6 +74,7 @@ extension Array where Element == TextSpace {
         }
         return (false, false)
     }
+    
     func itemAtTouchPoint(touchPoint: CGPoint) -> TextSpace? {
         for space in self {
             for rect in space.rects {
@@ -107,10 +116,12 @@ enum RectangleType {
             return []
         }
     }
+    
     func rectPath(rect: CGRect, cornerRadius: CGFloat) -> CGPath {
         let path: UIBezierPath = UIBezierPath(roundedRect: rect, byRoundingCorners: self.roundingCorners, cornerRadii: CGSize(width: cornerRadius, height: cornerRadius))
         return path.cgPath
     }
+    
     func clipRect(rect: CGRect) -> [CGPath] {
         switch self {
         case .full:
@@ -123,6 +134,7 @@ enum RectangleType {
             return [clipLeft(rect: rect), clipRight(rect: rect)]
         }
     }
+    
     private func clipLeft(rect: CGRect) -> CGPath {
         let path = UIBezierPath.init()
         path.move(to: rect.origin)
@@ -130,6 +142,7 @@ enum RectangleType {
         path.close()
         return path.cgPath
     }
+    
     private func clipRight(rect: CGRect) -> CGPath {
         let path = UIBezierPath.init()
         path.move(to: CGPoint.init(x: rect.origin.x + rect.width, y: rect.origin.y))

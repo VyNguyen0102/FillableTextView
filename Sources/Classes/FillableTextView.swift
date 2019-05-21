@@ -11,6 +11,27 @@ import CoreGraphics
 
 public class FillableTextView: UITextView {
     
+    @IBInspectable public var beginChar: String = "["
+    @IBInspectable public var endChar: String = "]"
+    
+    @IBInspectable public var frameColor: UIColor = #colorLiteral(red: 0.01680417731, green: 0.1983509958, blue: 1, alpha: 1)
+    @IBInspectable public var frameSelectedColor: UIColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+    @IBInspectable public var frameCornerRadius: CGFloat = 3.0
+    @IBInspectable public var frameLineWidth: CGFloat = 1.0
+    @IBInspectable public var frameHeightMultiple: CGFloat = 1.1
+    @IBInspectable public var fillTextColor: UIColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
+    
+    @IBInspectable var fillableText: String? {
+        set {
+            if let newValue = newValue{
+                setAttributedText(fillableText: newValue)
+            }
+        }
+        get {
+            return self.attributedText.string
+        }
+    }
+    
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!
         self.commonInit()
@@ -26,23 +47,22 @@ public class FillableTextView: UITextView {
         self.isSelectable = false
         self.delegate = self
     }
+    
     weak var delegateInterceptor: UITextViewDelegate?
     override public var delegate: UITextViewDelegate? {
-        
         willSet {
-            if isDelegateConfigured() {
+            if isDelegateConfigured {
                 delegateInterceptor = newValue
             }
         }
-        
         didSet {
-            if !isDelegateConfigured() {
+            if !isDelegateConfigured {
                 self.delegate = self
             }
         }
     }
     
-    fileprivate func isDelegateConfigured() -> Bool {
+    fileprivate var isDelegateConfigured: Bool {
         return delegate?.isEqual(self) ?? false
     }
 
@@ -59,30 +79,24 @@ public class FillableTextView: UITextView {
             }
         }
     }
+    
     override public func awakeFromNib() {
         super.awakeFromNib()
         fillableText = text
     }
-    @IBInspectable public var beginChar: String = "["
-    @IBInspectable public var endChar: String = "]"
 
-    @IBInspectable public var frameColor: UIColor = #colorLiteral(red: 0.01680417731, green: 0.1983509958, blue: 1, alpha: 1)
-    @IBInspectable public var frameSelectedColor: UIColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
-    @IBInspectable public var frameCornerRadius: CGFloat = 3.0
-    @IBInspectable public var frameLineWidth: CGFloat = 1.0
-    @IBInspectable public var frameHeightMultiple: CGFloat = 1.1
-    @IBInspectable public var fillTextColor: UIColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
-
-    var blankString: String {
+    fileprivate var blankString: String {
         return "\(beginChar)\(endChar)"
     }
 
-    var blankSpaceRegex: String {
+    fileprivate var blankSpaceRegex: String {
         return "\\\(beginChar)[^\\\(endChar)]*\\\(endChar)"
     }
-    var blankSpaceChars: String {
+    
+    fileprivate var blankSpaceChars: String {
         return "[\\\(beginChar)\\\(endChar)]"
     }
+    
     var textAttributes: [NSAttributedString.Key: Any] {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineHeightMultiple = frameHeightMultiple
@@ -90,28 +104,23 @@ public class FillableTextView: UITextView {
                 NSAttributedString.Key.foregroundColor : self.textColor ?? UIColor.black,
                 NSAttributedString.Key.paragraphStyle: paragraphStyle]
     }
-    var editTextAttributes: [NSAttributedString.Key: Any] {
+    
+    open var editTextAttributes: [NSAttributedString.Key: Any] {
         return [NSAttributedString.Key.foregroundColor: fillTextColor]
     }
-    var blankSpaceCharsAttributes: [NSAttributedString.Key: Any] {
+    
+    open var blankSpaceCharsAttributes: [NSAttributedString.Key: Any] {
         return [NSAttributedString.Key.foregroundColor: UIColor.clear]
     }
+    
     public var textFillResult: String? {
         return fillableText?.replacingOccurrences(of: blankSpaceChars, with: "", options: .regularExpression)
     }
+    
     var rectLayers = [CAShapeLayer]()
 
-    var isNeedUpdateTextAttribute = false
-    @IBInspectable var fillableText: String? {
-        set {
-            if let newValue = newValue{
-                setAttributedText(fillableText: newValue)
-            }
-        }
-        get {
-            return self.attributedText.string
-        }
-    }
+    fileprivate var isNeedUpdateTextAttribute = false
+    
     func setAttributedText(fillableText: String) {
         let attributedText = NSMutableAttributedString(string: fillableText, attributes: textAttributes)
         let placeHolderChars = fillableText.matches(for: blankSpaceChars)
@@ -122,6 +131,7 @@ public class FillableTextView: UITextView {
         self.updateTextAttributes()
         self.drawRect()
     }
+    
     var textSpaces: [TextSpace] {
         guard let fillableText = fillableText else {
             return []
@@ -136,9 +146,11 @@ public class FillableTextView: UITextView {
             return TextSpace.init(range: range, rects: textFrames, text: text)
         }
     }
+    
     public var filledText: [String] {
         return textSpaces.map({$0.text})
     }
+    
     func getFramesByRange(range: NSRange) -> [CGRect] {
         guard let textRange = self.getTextRangeBy(range: range) else {
             return []
@@ -171,17 +183,7 @@ public class FillableTextView: UITextView {
         }
     }
 
-    func textViewDidChangeSelection(_ textView: UITextView) {
-        if !textSpaces.isInclude(range: textView.selectedRange) && !isNeedUpdateTextAttribute {
-            self.isEditing = false
-        } else {
-            self.isEditing = true
-        }
-        self.drawRect()
-        delegateInterceptor?.textViewDidChangeSelection?(textView)
-    }
-
-    func drawRect(isEndEditing: Bool = false) {
+    fileprivate func drawRect(isEndEditing: Bool = false) {
         for layer in rectLayers {
             layer.removeFromSuperlayer()
         }
@@ -196,7 +198,7 @@ public class FillableTextView: UITextView {
         }
     }
 
-    func drawRect(view: UIView, at rect: CGRect, color: UIColor, type: RectangleType) {
+    fileprivate func drawRect(view: UIView, at rect: CGRect, color: UIColor, type: RectangleType) {
         let shapeLayer: CAShapeLayer = CAShapeLayer()
         shapeLayer.path = type.rectPath(rect: rect,cornerRadius: frameCornerRadius)
         shapeLayer.strokeColor = color.cgColor
@@ -212,7 +214,8 @@ public class FillableTextView: UITextView {
         rectLayers.append(shapeLayer)
         view.layer.insertSublayer(shapeLayer, at: 0) //.addSublayer(shapeLayer, at: 0)
     }
-    func updateTextAttributes() {
+    
+    fileprivate func updateTextAttributes() {
         guard let text = self.attributedText?.mutableCopy() as? NSMutableAttributedString else { return }
         for space in textSpaces {
             text.addAttributes(editTextAttributes, range: space.textRange)
@@ -230,11 +233,13 @@ public class FillableTextView: UITextView {
         }
         self.selectedRange = space.textRange
     }
+    
     override public func caretRect(for position: UITextPosition) -> CGRect {
         var rect = super.caretRect(for: position)
         rect.origin.y += (rect.size.height * (frameHeightMultiple - 1))
         return rect
     }
+    
     func getRangeBy(textRange: UITextRange) -> NSRange {
         let begining = self.beginningOfDocument
         let selectionStart = textRange.start
@@ -245,6 +250,7 @@ public class FillableTextView: UITextView {
 
         return NSRange.init(location: location, length: length)
     }
+    
     func getTextRangeBy(range: NSRange) -> UITextRange? {
         // text position of the range.location
         let start = self.position(from: self.beginningOfDocument, offset: range.location)!
@@ -255,11 +261,23 @@ public class FillableTextView: UITextView {
     }
 
     override public func canPaste(_ itemProviders: [NSItemProvider]) -> Bool {
+        //TODO
         print("can paste: false")
         return false
     }
 }
 extension FillableTextView: UITextViewDelegate {
+    
+    public func textViewDidChangeSelection(_ textView: UITextView) {
+        if !textSpaces.isInclude(range: textView.selectedRange) && !isNeedUpdateTextAttribute {
+            self.isEditing = false
+        } else {
+            self.isEditing = true
+        }
+        self.drawRect()
+        delegateInterceptor?.textViewDidChangeSelection?(textView)
+    }
+    
     public func textViewDidChange(_ textView: UITextView) {
         if isNeedUpdateTextAttribute {
             self.updateTextAttributes()
