@@ -16,8 +16,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         textView.text = "meo meo []"
-        
         textView.delegate = self
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -28,7 +28,7 @@ class ViewController: UIViewController {
 }
 extension ViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        //print(textView.text)
+        print("ℹ️ \(textView.text)")
     }
 }
 

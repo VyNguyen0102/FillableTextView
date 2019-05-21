@@ -10,7 +10,7 @@ import UIKit
 import CoreGraphics
 
 public class FillableTextView: UITextView {
-
+    
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!
         self.commonInit()
@@ -26,16 +26,24 @@ public class FillableTextView: UITextView {
         self.isSelectable = false
         self.delegate = self
     }
-    fileprivate weak var delegateInterceptor: UITextViewDelegate?
+    weak var delegateInterceptor: UITextViewDelegate?
     override public var delegate: UITextViewDelegate? {
-        didSet {
-            if !(delegate?.isEqual(self) ?? true) {
-                delegateInterceptor = delegate
-            } else {
-                delegateInterceptor = nil
+        
+        willSet {
+            if isDelegateConfigured() {
+                delegateInterceptor = newValue
             }
-            super.delegate = self
         }
+        
+        didSet {
+            if !isDelegateConfigured() {
+                self.delegate = self
+            }
+        }
+    }
+    
+    fileprivate func isDelegateConfigured() -> Bool {
+        return delegate?.isEqual(self) ?? false
     }
 
     var isEditing: Bool = false {
@@ -252,15 +260,16 @@ public class FillableTextView: UITextView {
     }
 }
 extension FillableTextView: UITextViewDelegate {
-    private func textViewDidChange(_ textView: UITextView) {
+    public func textViewDidChange(_ textView: UITextView) {
         if isNeedUpdateTextAttribute {
             self.updateTextAttributes()
         }
         drawRect()
         delegateInterceptor?.textViewDidChange?(textView)
     }
-
-    private func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+    
+    public func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        print(#function)
         if text.contains(beginChar) || text.contains(endChar) || !textSpaces.isInclude(range: range) {
             return false
         }
@@ -282,37 +291,37 @@ extension FillableTextView: UITextViewDelegate {
         return false
     }
 
-    private func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+    public func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
         return delegateInterceptor?.textViewShouldBeginEditing?(textView) ?? true
     }
 
-    private func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
+    public func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
         return delegateInterceptor?.textViewShouldEndEditing?(textView) ?? true
     }
 
-    private func textViewDidBeginEditing(_ textView: UITextView) {
+    public func textViewDidBeginEditing(_ textView: UITextView) {
         delegateInterceptor?.textViewDidBeginEditing?(textView)
     }
 
-    private func textViewDidEndEditing(_ textView: UITextView) {
+    public func textViewDidEndEditing(_ textView: UITextView) {
         delegateInterceptor?.textViewDidEndEditing?(textView)
     }
 
     @available(iOS 10.0, *)
-    private func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+    public func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
         return delegateInterceptor?.textView?( textView, shouldInteractWith: URL, in: characterRange,interaction: interaction) ?? true
     }
 
     @available(iOS 10.0, *)
-    private func textView(_ textView: UITextView, shouldInteractWith textAttachment: NSTextAttachment, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+    public func textView(_ textView: UITextView, shouldInteractWith textAttachment: NSTextAttachment, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
         return delegateInterceptor?.textView?(textView, shouldInteractWith: textAttachment, in: characterRange, interaction: interaction) ?? true
     }
 
-    private func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange) -> Bool {
+    public func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange) -> Bool {
         return delegateInterceptor?.textView?( textView, shouldInteractWith: URL, in: characterRange) ?? true
     }
 
-    private func textView(_ textView: UITextView, shouldInteractWith textAttachment: NSTextAttachment, in characterRange: NSRange) -> Bool {
+    public func textView(_ textView: UITextView, shouldInteractWith textAttachment: NSTextAttachment, in characterRange: NSRange) -> Bool {
         return delegateInterceptor?.textView?( textView, shouldInteractWith: textAttachment, in: characterRange) ?? true
     }
 }
