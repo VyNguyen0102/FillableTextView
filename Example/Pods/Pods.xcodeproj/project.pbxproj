@@ -18,9 +18,6 @@
 		3926F747223FFF9100A0EE30 /* FillableTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3926F743223FFF8B00A0EE30 /* FillableTextView.swift */; };
 		3926F748223FFF9300A0EE30 /* FillableTextViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3926F742223FFF8B00A0EE30 /* FillableTextViewModel.swift */; };
 		3926F749223FFF9600A0EE30 /* FillableTextViewStringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3926F741223FFF8B00A0EE30 /* FillableTextViewStringExtension.swift */; };
-		3926F74A2240009400A0EE30 /* FillableTextViewStringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3926F741223FFF8B00A0EE30 /* FillableTextViewStringExtension.swift */; };
-		3926F74B2240009C00A0EE30 /* FillableTextViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3926F742223FFF8B00A0EE30 /* FillableTextViewModel.swift */; };
-		3926F74C2240009F00A0EE30 /* FillableTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3926F743223FFF8B00A0EE30 /* FillableTextView.swift */; };
 		6F01DF0FB5610799A00AC976F981EB18 /* UIApplication+StrictKeyWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 912F5BE09296F333F87046761D662D18 /* UIApplication+StrictKeyWindow.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		700E8CE0FDD79F21D428FC3D54D36C0E /* UIImage+Snapshot.h in Headers */ = {isa = PBXBuildFile; fileRef = D7B529483604801ABB9AB87D9F1FFAD9 /* UIImage+Snapshot.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		788A7026F4BED7F437E18ACBF35570DD /* Pods-FillableTextView_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 9DE77E237457D578E8521C3D5BAACB9D /* Pods-FillableTextView_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -564,7 +561,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3926F74C2240009F00A0EE30 /* FillableTextView.swift in Sources */,
 				2C8E41D43E185E62965404EC1F236FA0 /* FBSnapshotTestCase-dummy.m in Sources */,
 				26D3EEFCFCA6DC9A4EB8EAD9703ECD98 /* FBSnapshotTestCase.m in Sources */,
 				E3B86D234BC43FB8877126BFDD760867 /* FBSnapshotTestCasePlatform.m in Sources */,
@@ -572,8 +568,6 @@
 				33CD52558D8E2F820100C8753AA2F32F /* SwiftSupport.swift in Sources */,
 				CFA869102744DB995F3AC930E96E3AFF /* UIApplication+StrictKeyWindow.m in Sources */,
 				D428498A1A70F3DB2F9D9C921989E6B8 /* UIImage+Compare.m in Sources */,
-				3926F74A2240009400A0EE30 /* FillableTextViewStringExtension.swift in Sources */,
-				3926F74B2240009C00A0EE30 /* FillableTextViewModel.swift in Sources */,
 				E7F0B09F899DBFE173736F8AE258ED48 /* UIImage+Diff.m in Sources */,
 				24DEF3AF3296F229268D80B50E433240 /* UIImage+Snapshot.m in Sources */,
 			);

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="vXZ-lx-hvc">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -21,25 +21,44 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ygV-nW-8Iw" customClass="FillableTextView" customModule="FillableTextView">
-                                <rect key="frame" x="20" y="40" width="335" height="300"/>
-                                <color key="backgroundColor" red="0.93986328124999996" green="0.93986328124999996" blue="0.93986328124999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="300" id="e5y-mN-MOh"/>
-                                </constraints>
-                                <string key="text">Once upon a time there [] (live) a man called Damocles. A friend of his eventually [] (become) the ruler of a small city. Damocles thought, ‘How lucky my friend [] (be). He [] (be) now a ruler. He must [] (have) a great time. He []have fine clothes, lots of money and a number of servants. I wish I [] (have) his luck.’ He [] (decide) to visit his friend to enjoy his hospitality. When he []  (reach) the palace, the king himself [] (receive) him with respect and affection. Damocles then [] (tell) the king that he [] (be) indeed a lucky man. The king [] (smile). He [] (invite) his friend to have dinner with him.</string>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="shq-dG-rKa">
+                                <rect key="frame" x="20" y="40" width="335" height="350"/>
+                                <subviews>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ygV-nW-8Iw" customClass="FillableTextView" customModule="FillableTextView">
+                                        <rect key="frame" x="0.0" y="0.0" width="335" height="300"/>
+                                        <color key="backgroundColor" red="0.93986328124999996" green="0.93986328124999996" blue="0.93986328124999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="300" id="e5y-mN-MOh"/>
+                                        </constraints>
+                                        <mutableString key="text">Once upon a time there [] (live) a man called Damocles. A friend of his eventually [] (become) the ruler of a small city. Damocles thought, ‘How lucky my friend [] (be). He [] (be) now a ruler. He must [] (have) a great time. He [] have fine clothes, lots of money and a number of servants. I wish I [] (have) his luck.’ He [] (decide) to visit his friend to enjoy his hospitality. When he []  (reach) the palace, the king himself [] (receive) him with respect and affection. Damocles then [] (tell) the king that he [] (be) indeed a lucky man. The king [] (smile). He [] (invite) his friend to have dinner with him.</mutableString>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="わたしは日本語「」すきです。" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="FaX-M6-efT" customClass="FillableTextView" customModule="FillableTextView">
+                                        <rect key="frame" x="0.0" y="300" width="335" height="50"/>
+                                        <color key="backgroundColor" red="1" green="0.8728361168455232" blue="0.76052914332728805" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="5El-Nz-eSR"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="beginChar" value="「"/>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="endChar" value="」"/>
+                                        </userDefinedRuntimeAttributes>
+                                    </textView>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="ygV-nW-8Iw" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="20" id="EGW-Kf-ayq"/>
-                            <constraint firstItem="ygV-nW-8Iw" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="20" id="RHo-Vf-CK7"/>
-                            <constraint firstAttribute="trailing" secondItem="ygV-nW-8Iw" secondAttribute="trailing" constant="20" id="USQ-mX-S6E"/>
+                            <constraint firstItem="shq-dG-rKa" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="20" id="G1a-iH-zyl"/>
+                            <constraint firstAttribute="trailing" secondItem="shq-dG-rKa" secondAttribute="trailing" constant="20" id="RVp-fm-nu4"/>
+                            <constraint firstItem="shq-dG-rKa" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="20" id="W39-JI-Zb8"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="japaneseTextView" destination="FaX-M6-efT" id="o4X-mq-oyC"/>
                         <outlet property="textView" destination="ygV-nW-8Iw" id="XNw-ga-78U"/>
                     </connections>
                 </viewController>
