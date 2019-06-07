@@ -69,17 +69,18 @@ extension Array where Element == TextSpace {
     func isEditable(range: NSRange) -> (Bool, Bool) {
         for item in self {
             if item.range.contains(range.location) && item.range.contains(range.location + range.length - 1) {
-                return (true, item.textRange.length <= 1)
+                return (true, item.textRange.location == range.location )
             }
         }
         return (false, false)
     }
     
-    func itemAtTouchPoint(touchPoint: CGPoint) -> TextSpace? {
-        for space in self {
+    func itemAtTouchPoint(touchPoint: CGPoint) -> (Int, TextSpace)? {
+        for index in 0..<self.count {
+            let space = self[index]
             for rect in space.rects {
                 if rect.contains(touchPoint) {
-                    return space
+                    return (index, space)
                 }
             }
         }

@@ -18,6 +18,8 @@
 		3926F747223FFF9100A0EE30 /* FillableTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3926F743223FFF8B00A0EE30 /* FillableTextView.swift */; };
 		3926F748223FFF9300A0EE30 /* FillableTextViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3926F742223FFF8B00A0EE30 /* FillableTextViewModel.swift */; };
 		3926F749223FFF9600A0EE30 /* FillableTextViewStringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3926F741223FFF8B00A0EE30 /* FillableTextViewStringExtension.swift */; };
+		6A925EE8229BCC3D00DA0EC7 /* FillableTextViewActionSheetExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A925EE6229BCA6500DA0EC7 /* FillableTextViewActionSheetExtension.swift */; };
+		6A925EEA229BCED100DA0EC7 /* FillableTextViewUIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A925EE9229BCED100DA0EC7 /* FillableTextViewUIViewExtension.swift */; };
 		6F01DF0FB5610799A00AC976F981EB18 /* UIApplication+StrictKeyWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 912F5BE09296F333F87046761D662D18 /* UIApplication+StrictKeyWindow.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		700E8CE0FDD79F21D428FC3D54D36C0E /* UIImage+Snapshot.h in Headers */ = {isa = PBXBuildFile; fileRef = D7B529483604801ABB9AB87D9F1FFAD9 /* UIImage+Snapshot.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		788A7026F4BED7F437E18ACBF35570DD /* Pods-FillableTextView_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 9DE77E237457D578E8521C3D5BAACB9D /* Pods-FillableTextView_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -97,6 +99,8 @@
 		564430EAA78E7C0A953C98BF8AE26E4F /* FBSnapshotTestCase-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "FBSnapshotTestCase-prefix.pch"; sourceTree = "<group>"; };
 		5A9BD11EE45EC479E9AD0FB8B4699085 /* Pods-FillableTextView_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-FillableTextView_Tests.modulemap"; sourceTree = "<group>"; };
 		64F989242888AD7E818B508ED2EB04BA /* FillableTextView-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "FillableTextView-dummy.m"; sourceTree = "<group>"; };
+		6A925EE6229BCA6500DA0EC7 /* FillableTextViewActionSheetExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FillableTextViewActionSheetExtension.swift; sourceTree = "<group>"; };
+		6A925EE9229BCED100DA0EC7 /* FillableTextViewUIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FillableTextViewUIViewExtension.swift; sourceTree = "<group>"; };
 		725F68C53D10F680C1F44361FF3E5EF1 /* FillableTextView-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "FillableTextView-prefix.pch"; sourceTree = "<group>"; };
 		73C0F108CD291CC7515C10FFE34EC7C5 /* Pods-FillableTextView_Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-FillableTextView_Tests-dummy.m"; sourceTree = "<group>"; };
 		7E598EA85FAF39ACA9B89D6177D1A61A /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.0.sdk/System/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -210,8 +214,10 @@
 			isa = PBXGroup;
 			children = (
 				3926F743223FFF8B00A0EE30 /* FillableTextView.swift */,
+				6A925EE6229BCA6500DA0EC7 /* FillableTextViewActionSheetExtension.swift */,
 				3926F742223FFF8B00A0EE30 /* FillableTextViewModel.swift */,
 				3926F741223FFF8B00A0EE30 /* FillableTextViewStringExtension.swift */,
+				6A925EE9229BCED100DA0EC7 /* FillableTextViewUIViewExtension.swift */,
 			);
 			name = Sources;
 			path = ../../Sources;
@@ -577,7 +583,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6A925EE8229BCC3D00DA0EC7 /* FillableTextViewActionSheetExtension.swift in Sources */,
 				3926F748223FFF9300A0EE30 /* FillableTextViewModel.swift in Sources */,
+				6A925EEA229BCED100DA0EC7 /* FillableTextViewUIViewExtension.swift in Sources */,
 				3926F747223FFF9100A0EE30 /* FillableTextView.swift in Sources */,
 				3926F749223FFF9600A0EE30 /* FillableTextViewStringExtension.swift in Sources */,
 			);

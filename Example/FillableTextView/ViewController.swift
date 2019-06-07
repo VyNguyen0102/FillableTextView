@@ -20,6 +20,7 @@ class ViewController: UIViewController {
         textView.delegate = self
         japaneseTextView.text = "わたしは日本語 「」 すきです。"
         japaneseTextView.delegate = self
+        japaneseTextView.fillableTextViewDelegate = self
     }
 
     override func didReceiveMemoryWarning() {
@@ -39,3 +40,14 @@ extension ViewController: UITextViewDelegate {
     }
 }
 
+extension ViewController: FillableTextViewDelegate {
+    func optionsForIndex(_ index: Int) -> [String : Any?]? {
+        return ["を": false
+            ,"が": true
+            ,"も": false]
+    }
+    
+    func didSelectOptionForIndex(_ index: Int, text: String, userData: Any?) {
+        print("didSelectOption \(text) with userData \(String(describing: userData))")
+    }
+}

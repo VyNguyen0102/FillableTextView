@@ -9,6 +9,11 @@ import Foundation
 import UIKit
 import CoreGraphics
 
+public protocol FillableTextViewDelegate: class {
+    func optionsForIndex(_ index: Int) -> [String: Any?]?
+    func didSelectOptionForIndex(_ index: Int, text: String, userData: Any?)
+}
+
 public class FillableTextView: UITextView {
     
     @IBInspectable public var beginChar: String = "["
@@ -20,6 +25,8 @@ public class FillableTextView: UITextView {
     @IBInspectable public var frameLineWidth: CGFloat = 1.0
     @IBInspectable public var frameHeightMultiple: CGFloat = 1.1
     @IBInspectable public var fillTextColor: UIColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
+    
+    public weak var fillableTextViewDelegate: FillableTextViewDelegate?
     
     @IBInspectable var fillableText: String? {
         set {
@@ -97,13 +104,13 @@ public class FillableTextView: UITextView {
         return "[\\\(beginChar)\\\(endChar)]"
     }
     
-    var textAttributes: [NSAttributedString.Key: Any] {
+    lazy var textAttributes: [NSAttributedString.Key: Any] = {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineHeightMultiple = frameHeightMultiple
         return [NSAttributedString.Key.font: self.font ?? UIFont.systemFont(ofSize: 15.0),
                 NSAttributedString.Key.foregroundColor : self.textColor ?? UIColor.black,
                 NSAttributedString.Key.paragraphStyle: paragraphStyle]
-    }
+    }()
     
     open var editTextAttributes: [NSAttributedString.Key: Any] {
         return [NSAttributedString.Key.foregroundColor: fillTextColor]
@@ -177,9 +184,12 @@ public class FillableTextView: UITextView {
         guard let touchPoint = touches.first?.location(in: self) else {
             return
         }
-        if let space = textSpaces.itemAtTouchPoint(touchPoint: touchPoint) {
+        if let (index, space) = textSpaces.itemAtTouchPoint(touchPoint: touchPoint) {
             self.isEditing = true
             self.selectedRange = space.textRange
+            if let options = fillableTextViewDelegate?.optionsForIndex(index), options.count > 0 {
+                showActionSheetAtIndex(index, array: options)
+            }
         }
     }
 
