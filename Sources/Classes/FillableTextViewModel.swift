@@ -6,18 +6,23 @@
 //
 
 import Foundation
+import UIKit
 
-struct TextSpace {
+public struct TextSpace {
     let range: NSRange
     let rects: [CGRect]
     let text: String
     
     var textRange: NSRange {
+        return NSRange.init(location: range.location + 1, length: range.length - 3)
+    }
+    
+    var editableTextRange: NSRange {
         return NSRange.init(location: range.location + 1, length: range.length - 2)
     }
     
     func isInclude(range: NSRange) -> Bool {
-        if self.range.contains(range.location - 1) && self.range.contains(range.location + range.length) {
+        if self.editableTextRange.contains(range.location) && self.editableTextRange.contains(range.location + range.length) {
             return true
         }
         return false

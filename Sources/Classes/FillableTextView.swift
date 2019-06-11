@@ -12,15 +12,17 @@ import CoreGraphics
 public protocol FillableTextViewDelegate: class {
     func optionsForIndex(_ index: Int) -> [String: Any?]?
     func didSelectOptionForIndex(_ index: Int, text: String, userData: Any?)
+    func textViewDidChangeText(_ textView: UITextView, index: Int, text: String, textSpace: TextSpace)
 }
 
 public class FillableTextView: UITextView {
     
     @IBInspectable public var beginChar: String = "["
     @IBInspectable public var endChar: String = "]"
+    public var placeHolderChar: String = " " // A long space (U+2003) :D
     
-    @IBInspectable public var frameColor: UIColor = #colorLiteral(red: 0.01680417731, green: 0.1983509958, blue: 1, alpha: 1)
-    @IBInspectable public var frameSelectedColor: UIColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+    @IBInspectable public var frameColor: UIColor = #colorLiteral(red: 0.01680417731, green: 0.1983509958, blue: 1, alpha: 0.5)
+    @IBInspectable public var frameSelectedColor: UIColor = #colorLiteral(red: 0.1769979828, green: 0.1916395839, blue: 0.2129101933, alpha: 0.5)
     @IBInspectable public var frameCornerRadius: CGFloat = 3.0
     @IBInspectable public var frameLineWidth: CGFloat = 1.0
     @IBInspectable public var frameHeightMultiple: CGFloat = 1.1
@@ -30,7 +32,7 @@ public class FillableTextView: UITextView {
     
     @IBInspectable var fillableText: String? {
         set {
-            if let newValue = newValue{
+            if let newValue = newValue {
                 setAttributedText(fillableText: newValue)
             }
         }
@@ -92,8 +94,12 @@ public class FillableTextView: UITextView {
         fillableText = text
     }
 
-    fileprivate var blankString: String {
-        return "\(beginChar)\(endChar)"
+    fileprivate var emptySpaceRegex: String {
+        return " ?\\\(beginChar)\\\(endChar) ?"
+    }
+    
+    fileprivate var defaultSpaceRegex: String {
+        return " \(beginChar)\(placeHolderChar)\(endChar) "
     }
 
     fileprivate var blankSpaceRegex: String {
@@ -129,8 +135,10 @@ public class FillableTextView: UITextView {
     fileprivate var isNeedUpdateTextAttribute = false
     
     func setAttributedText(fillableText: String) {
-        let attributedText = NSMutableAttributedString(string: fillableText, attributes: textAttributes)
-        let placeHolderChars = fillableText.matches(for: blankSpaceChars)
+        // Repalce blank space with place holder
+        let replacedAttributedText = fillableText.replacingCharacters(byRegex: emptySpaceRegex, with: defaultSpaceRegex)
+        let attributedText = NSMutableAttributedString(string: replacedAttributedText, attributes: textAttributes)
+        let placeHolderChars = replacedAttributedText.matches(for: blankSpaceChars)
         for item in placeHolderChars {
             attributedText.addAttributes(blankSpaceCharsAttributes, range: item.range)
         }
@@ -152,6 +160,14 @@ public class FillableTextView: UITextView {
             let textFrames = self.getFramesByRange(range: range)
             return TextSpace.init(range: range, rects: textFrames, text: text)
         }
+    }
+    
+    public var selectedTextSpace: TextSpace? {
+        return textSpaces.first(where: { $0.isInclude(range: selectedRange)})
+    }
+    
+    public var selectedTextSpaceIndex: Int? {
+        return textSpaces.firstIndex(where: { $0.isInclude(range: selectedRange)})
     }
     
     public var filledText: [String] {
@@ -294,6 +310,9 @@ extension FillableTextView: UITextViewDelegate {
         }
         drawRect()
         delegateInterceptor?.textViewDidChange?(textView)
+        if let selectedTextSpace = selectedTextSpace, let selectedTextSpaceIndex = selectedTextSpaceIndex {
+            fillableTextViewDelegate?.textViewDidChangeText(self, index: selectedTextSpaceIndex, text: selectedTextSpace.text, textSpace: selectedTextSpace)
+        }
     }
     
     public func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {

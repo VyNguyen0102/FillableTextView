@@ -22,7 +22,10 @@ extension FillableTextView {
             })
             optionMenu.addAction(deleteAction)
         }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: {
+            (alert: UIAlertAction!) -> Void in
+            self.isEditing = false
+        })
         optionMenu.addAction(cancelAction)
         self.parentViewController?.present(optionMenu, animated: true, completion: nil)
     }

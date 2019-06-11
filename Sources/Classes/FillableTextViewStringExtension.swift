@@ -27,4 +27,12 @@ public extension String {
         }
         return nil
     }
+    
+    func replacingCharacters(byRegex: String, with: String) -> String {
+        guard let regularExpression = try? NSRegularExpression(pattern: byRegex, options: NSRegularExpression.Options.caseInsensitive) else {
+            return self
+        }
+        let range = NSMakeRange(0, self.count)
+        return regularExpression.stringByReplacingMatches(in: self, options: [], range: range, withTemplate: with)
+    }
 }
