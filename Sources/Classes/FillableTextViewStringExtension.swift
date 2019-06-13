@@ -9,6 +9,9 @@ import Foundation
 
 public extension String {
     
+    static var longSpaceChar: String = " " // A long space (U+2003)
+    static var hairSpaceChar: String = " " // A Hair Space (U+200A)
+    
     func matches(for regex: String) -> [NSTextCheckingResult] {
         do {
             let regex = try NSRegularExpression(pattern: regex)

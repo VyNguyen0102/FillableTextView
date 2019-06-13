@@ -18,7 +18,7 @@ extension FillableTextView {
             let deleteAction = UIAlertAction(title: item.key, style: .default, handler: {
                 (alert: UIAlertAction!) -> Void in
                 self.setValueForIndex(index, value: item.key)
-                self.fillableTextViewDelegate?.didSelectOptionForIndex(index, text: item.key, userData: item.value)
+                self.fillableTextViewDelegate?.didSelectOptionForIndex(self, index: index, text: item.key, userData: item.value)
             })
             optionMenu.addAction(deleteAction)
         }
@@ -36,6 +36,7 @@ extension FillableTextView {
         let textSpace = textSpaces[index]
         
         fillableText = (fillableText as NSString?)?.replacingCharacters(in: textSpace.textRange , with: value)
+        self.textViewDidChange(self)
         self.isEditing = false
     }
 }

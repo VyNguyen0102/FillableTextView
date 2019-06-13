@@ -10,16 +10,15 @@ import UIKit
 import CoreGraphics
 
 public protocol FillableTextViewDelegate: class {
-    func optionsForIndex(_ index: Int) -> [String: Any?]?
-    func didSelectOptionForIndex(_ index: Int, text: String, userData: Any?)
-    func textViewDidChangeText(_ textView: UITextView, index: Int, text: String, textSpace: TextSpace)
+    func optionsForIndex(_ textView: FillableTextView, index: Int) -> [String: Any?]?
+    func didSelectOptionForIndex(_ textView: FillableTextView, index: Int, text: String, userData: Any?)
+    func textViewDidChangeText(_ textView: FillableTextView, index: Int, text: String, textSpace: TextSpace)
 }
 
 public class FillableTextView: UITextView {
     
     @IBInspectable public var beginChar: String = "["
     @IBInspectable public var endChar: String = "]"
-    public var placeHolderChar: String = " " // A long space (U+2003) :D
     
     @IBInspectable public var frameColor: UIColor = #colorLiteral(red: 0.01680417731, green: 0.1983509958, blue: 1, alpha: 0.5)
     @IBInspectable public var frameSelectedColor: UIColor = #colorLiteral(red: 0.1769979828, green: 0.1916395839, blue: 0.2129101933, alpha: 0.5)
@@ -30,10 +29,16 @@ public class FillableTextView: UITextView {
     
     public weak var fillableTextViewDelegate: FillableTextViewDelegate?
     
+    var lastedSelectedRange: NSRange?
     @IBInspectable var fillableText: String? {
         set {
             if let newValue = newValue {
+                lastedSelectedRange = self.selectedRange
                 setAttributedText(fillableText: newValue)
+                if let lastedSelectedRange = lastedSelectedRange {
+                    self.selectedRange = lastedSelectedRange
+                    self.lastedSelectedRange = nil
+                }
             }
         }
         get {
@@ -99,7 +104,7 @@ public class FillableTextView: UITextView {
     }
     
     fileprivate var defaultSpaceRegex: String {
-        return " \(beginChar)\(placeHolderChar)\(endChar) "
+        return " \(beginChar)\(String.longSpaceChar)\(endChar) "
     }
 
     fileprivate var blankSpaceRegex: String {
@@ -107,7 +112,7 @@ public class FillableTextView: UITextView {
     }
     
     fileprivate var blankSpaceChars: String {
-        return "[\\\(beginChar)\\\(endChar)]"
+        return "[\\\(beginChar)\\\(endChar)\(String.longSpaceChar)\(String.hairSpaceChar)]"
     }
     
     lazy var textAttributes: [NSAttributedString.Key: Any] = {
@@ -154,11 +159,9 @@ public class FillableTextView: UITextView {
         let placeHoldersText = fillableText.matches(for: blankSpaceRegex )
         return placeHoldersText.map { space in
             let range = space.range
-
-            var text = fillableText.getTextByRange(range: range) ?? ""
-            text = text.replacingOccurrences(of: blankSpaceChars, with: "", options: .regularExpression)
+            let rawText = fillableText.getTextByRange(range: range) ?? ""
             let textFrames = self.getFramesByRange(range: range)
-            return TextSpace.init(range: range, rects: textFrames, text: text)
+            return TextSpace.init(range: range, rects: textFrames, rawText: rawText)
         }
     }
     
@@ -203,7 +206,7 @@ public class FillableTextView: UITextView {
         if let (index, space) = textSpaces.itemAtTouchPoint(touchPoint: touchPoint) {
             self.isEditing = true
             self.selectedRange = space.textRange
-            if let options = fillableTextViewDelegate?.optionsForIndex(index), options.count > 0 {
+            if let options = fillableTextViewDelegate?.optionsForIndex(self, index: index) , options.count > 0 {
                 showActionSheetAtIndex(index, array: options)
             }
         }
@@ -305,10 +308,14 @@ extension FillableTextView: UITextViewDelegate {
     }
     
     public func textViewDidChange(_ textView: UITextView) {
-        if isNeedUpdateTextAttribute {
-            self.updateTextAttributes()
+        if let updateTextSpace = textSpaces.first(where: {  $0.isNeedUpdatePlaceHolder }) {
+            fillableText = (fillableText as NSString?)?.replacingCharacters(in: updateTextSpace.range , with: updateTextSpace.replaceText)
+        } else {
+            if isNeedUpdateTextAttribute {
+                self.updateTextAttributes()
+            }
+            drawRect()
         }
-        drawRect()
         delegateInterceptor?.textViewDidChange?(textView)
         if let selectedTextSpace = selectedTextSpace, let selectedTextSpaceIndex = selectedTextSpaceIndex {
             fillableTextViewDelegate?.textViewDidChangeText(self, index: selectedTextSpaceIndex, text: selectedTextSpace.text, textSpace: selectedTextSpace)

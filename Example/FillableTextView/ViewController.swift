@@ -42,17 +42,22 @@ extension ViewController: UITextViewDelegate {
 }
 
 extension ViewController: FillableTextViewDelegate {
-    func textViewDidChangeText(_ textView: UITextView, index: Int, text: String, textSpace: TextSpace) {
-        print("index = \(index) text = \(text)")
+    func optionsForIndex(_ textView: FillableTextView, index: Int) -> [String : Any?]? {
+        if textView == japaneseTextView {
+            return ["を": false
+                ,"が": true
+                ,"も": false]
+        } else {
+            return nil
+        }
     }
     
-    func optionsForIndex(_ index: Int) -> [String : Any?]? {
-        return ["を": false
-            ,"が": true
-            ,"も": false]
-    }
-    
-    func didSelectOptionForIndex(_ index: Int, text: String, userData: Any?) {
+    func didSelectOptionForIndex(_ textView: FillableTextView, index: Int, text: String, userData: Any?) {
         print("didSelectOption \(text) with userData \(String(describing: userData))")
+    }
+    
+    func textViewDidChangeText(_ textView: FillableTextView, index: Int, text: String, textSpace: TextSpace) {
+        print("index = \(index) text = \"\(text)\"")
+        
     }
 }

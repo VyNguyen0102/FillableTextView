@@ -11,7 +11,22 @@ import UIKit
 public struct TextSpace {
     let range: NSRange
     let rects: [CGRect]
-    let text: String
+    let rawText: String
+    var replaceText: String {
+        if self.text.isEmpty {
+            return rawText.replacingOccurrences(of: String.hairSpaceChar, with: String.longSpaceChar)
+        } else {
+            return rawText.replacingOccurrences(of: String.longSpaceChar, with: String.hairSpaceChar)
+        }
+    }
+    var text: String {
+        let start = rawText.index(rawText.startIndex, offsetBy: 1)
+        let end = rawText.index(rawText.endIndex, offsetBy: -2)
+        let range = start..<end
+        
+        let textString = rawText[range]
+        return String(textString)
+    }
     
     var textRange: NSRange {
         return NSRange.init(location: range.location + 1, length: range.length - 3)
@@ -19,6 +34,10 @@ public struct TextSpace {
     
     var editableTextRange: NSRange {
         return NSRange.init(location: range.location + 1, length: range.length - 2)
+    }
+    
+    var isNeedUpdatePlaceHolder: Bool {
+        return text.isEmpty != rawText.contains(String.longSpaceChar)
     }
     
     func isInclude(range: NSRange) -> Bool {
@@ -30,6 +49,10 @@ public struct TextSpace {
 }
 
 extension Array where Element == TextSpace {
+    
+    var isNeedUpdatePlaceHolder: Bool {
+        return self.contains(where: { $0.isNeedUpdatePlaceHolder })
+    }
     
     func getItemAt(range: NSRange) -> TextSpace? {
         return first(where: { item in
