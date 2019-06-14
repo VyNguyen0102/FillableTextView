@@ -8,7 +8,13 @@
 import Foundation
 import UIKit
 
+public enum BlankType {
+    case box
+    case line
+}
+
 public struct TextSpace {
+    let placeHolderLength: Int
     let range: NSRange
     let rects: [CGRect]
     let rawText: String
@@ -21,7 +27,7 @@ public struct TextSpace {
     }
     var text: String {
         let start = rawText.index(rawText.startIndex, offsetBy: 1)
-        let end = rawText.index(rawText.endIndex, offsetBy: -2)
+        let end = rawText.index(rawText.endIndex, offsetBy: -( placeHolderLength + 1))
         let range = start..<end
         
         let textString = rawText[range]
@@ -29,11 +35,11 @@ public struct TextSpace {
     }
     
     var textRange: NSRange {
-        return NSRange.init(location: range.location + 1, length: range.length - 3)
+        return NSRange.init(location: range.location + 1, length: range.length - ( placeHolderLength + 2))
     }
     
     var editableTextRange: NSRange {
-        return NSRange.init(location: range.location + 1, length: range.length - 2)
+        return NSRange.init(location: range.location + 1, length: range.length - ( placeHolderLength + 1))
     }
     
     var isNeedUpdatePlaceHolder: Bool {
@@ -147,7 +153,11 @@ enum RectangleType {
     }
     
     func rectPath(rect: CGRect, cornerRadius: CGFloat) -> CGPath {
-        let path: UIBezierPath = UIBezierPath(roundedRect: rect, byRoundingCorners: self.roundingCorners, cornerRadii: CGSize(width: cornerRadius, height: cornerRadius))
+        return RectangleType.rectPath(rect: rect, cornerRadius: cornerRadius, roundingCorners: self.roundingCorners)
+    }
+    
+    static func rectPath(rect: CGRect, cornerRadius: CGFloat, roundingCorners: UIRectCorner) -> CGPath {
+        let path: UIBezierPath = UIBezierPath(roundedRect: rect, byRoundingCorners: roundingCorners, cornerRadii: CGSize(width: cornerRadius, height: cornerRadius))
         return path.cgPath
     }
     

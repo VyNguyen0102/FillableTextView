@@ -12,6 +12,18 @@ public extension String {
     static var longSpaceChar: String = " " // A long space (U+2003)
     static var hairSpaceChar: String = " " // A Hair Space (U+200A)
     
+    static func longSpaceCharByLengh(length: Int) -> String {
+        if length == 0 {
+            return ""
+        } else if length == 1 {
+            return longSpaceChar
+        } else if length % 2 == 0 {
+            return longSpaceCharByLengh(length: length/2) + longSpaceCharByLengh(length: length/2)
+        } else {
+            return longSpaceCharByLengh(length: length/2) + longSpaceCharByLengh(length: length/2) + longSpaceChar
+        }
+    }
+    
     func matches(for regex: String) -> [NSTextCheckingResult] {
         do {
             let regex = try NSRegularExpression(pattern: regex)

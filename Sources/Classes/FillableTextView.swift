@@ -20,17 +20,39 @@ public class FillableTextView: UITextView {
     @IBInspectable public var beginChar: String = "["
     @IBInspectable public var endChar: String = "]"
     
-    @IBInspectable public var frameColor: UIColor = #colorLiteral(red: 0.01680417731, green: 0.1983509958, blue: 1, alpha: 0.5)
-    @IBInspectable public var frameSelectedColor: UIColor = #colorLiteral(red: 0.1769979828, green: 0.1916395839, blue: 0.2129101933, alpha: 0.5)
+    @IBInspectable public var placeHolderLength: Int = 2 {
+        didSet {
+             fillableText = rawText
+        }
+    }
+    
+    @IBInspectable public var frameColor: UIColor = #colorLiteral(red: 0.1769979828, green: 0.1916395839, blue: 0.2129101933, alpha: 0.5)
+    @IBInspectable public var frameSelectedColor: UIColor = #colorLiteral(red: 0.01680417731, green: 0.1983509958, blue: 1, alpha: 0.5)
     @IBInspectable public var frameCornerRadius: CGFloat = 3.0
     @IBInspectable public var frameLineWidth: CGFloat = 1.0
     @IBInspectable public var frameHeightMultiple: CGFloat = 1.1
     @IBInspectable public var fillTextColor: UIColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
     
+    public var blankType: BlankType = .line
+    
     public weak var fillableTextViewDelegate: FillableTextViewDelegate?
     
+    var rawText: String?
+    
     var lastedSelectedRange: NSRange?
+    
     @IBInspectable var fillableText: String? {
+        set {
+            if let newValue = newValue {
+                fillableAttributedText = insertPlaceHolderToString(text: newValue)
+            }
+        }
+        get {
+            return self.attributedText.string
+        }
+    }
+    
+    var fillableAttributedText: String? {
         set {
             if let newValue = newValue {
                 lastedSelectedRange = self.selectedRange
@@ -104,7 +126,7 @@ public class FillableTextView: UITextView {
     }
     
     fileprivate var defaultSpaceRegex: String {
-        return " \(beginChar)\(String.longSpaceChar)\(endChar) "
+        return " \(beginChar)\(endChar) "
     }
 
     fileprivate var blankSpaceRegex: String {
@@ -139,11 +161,16 @@ public class FillableTextView: UITextView {
 
     fileprivate var isNeedUpdateTextAttribute = false
     
+    func insertPlaceHolderToString(text: String) -> String {
+        var result = text.replacingCharacters(byRegex: emptySpaceRegex, with: defaultSpaceRegex)
+        result = result.replacingOccurrences(of: endChar, with:"\(String.longSpaceCharByLengh(length: placeHolderLength) )\(endChar)" )
+        return result
+    }
+    
     func setAttributedText(fillableText: String) {
         // Repalce blank space with place holder
-        let replacedAttributedText = fillableText.replacingCharacters(byRegex: emptySpaceRegex, with: defaultSpaceRegex)
-        let attributedText = NSMutableAttributedString(string: replacedAttributedText, attributes: textAttributes)
-        let placeHolderChars = replacedAttributedText.matches(for: blankSpaceChars)
+        let attributedText = NSMutableAttributedString(string: fillableText, attributes: textAttributes)
+        let placeHolderChars = fillableText.matches(for: blankSpaceChars)
         for item in placeHolderChars {
             attributedText.addAttributes(blankSpaceCharsAttributes, range: item.range)
         }
@@ -161,7 +188,7 @@ public class FillableTextView: UITextView {
             let range = space.range
             let rawText = fillableText.getTextByRange(range: range) ?? ""
             let textFrames = self.getFramesByRange(range: range)
-            return TextSpace.init(range: range, rects: textFrames, rawText: rawText)
+            return TextSpace.init(placeHolderLength: self.placeHolderLength, range: range, rects: textFrames, rawText: rawText)
         }
     }
     
@@ -193,6 +220,7 @@ public class FillableTextView: UITextView {
 
     override public var text: String? {
         didSet {
+            rawText = text
             fillableText = text
         }
     }
@@ -218,15 +246,42 @@ public class FillableTextView: UITextView {
         }
         rectLayers.removeAll()
         for space in textSpaces {
-            let color = (space.isInclude(range: self.selectedRange) && !isEndEditing) ? frameColor : frameSelectedColor
+            let color = space.isInclude(range: self.selectedRange) ? frameSelectedColor : frameColor
             for index in 0..<space.rects.count {
                 let rect = space.rects[index]
                 let type = RectangleType.init(index: index, itemCount: space.rects.count)
-                drawRect(view: self, at: rect, color: color, type: type)
+                switch blankType {
+                case .box:
+                    drawRect(view: self, at: rect, color: color, type: type)
+                case .line:
+                    drawUnderLine(view: self, at: rect, color: color, type: type)
+                }
             }
         }
     }
 
+    fileprivate func drawUnderLine(view: UIView, at rect: CGRect, color: UIColor, type: RectangleType) {
+        let shapeLayer: CAShapeLayer = CAShapeLayer()
+        shapeLayer.path = type.rectPath(rect: rect,cornerRadius: frameCornerRadius)
+        shapeLayer.fillColor = color.withAlphaComponent(0.1).cgColor
+        
+        let path = UIBezierPath.init()
+        path.move(to: CGPoint.init(x: rect.origin.x + frameCornerRadius, y: rect.origin.y + rect.height))
+        path.addLine(to: CGPoint.init(x: rect.origin.x + rect.width - frameCornerRadius, y: rect.origin.y + rect.height))
+        path.close()
+
+        let clipLayer: CAShapeLayer = CAShapeLayer()
+        clipLayer.path = path.cgPath
+        clipLayer.lineWidth = frameLineWidth
+        clipLayer.strokeColor = color.cgColor
+        shapeLayer.addSublayer(clipLayer)
+        
+        shapeLayer.addSublayer(clipLayer)
+
+        rectLayers.append(shapeLayer)
+        view.layer.insertSublayer(shapeLayer, at: 0) //.addSublayer(shapeLayer, at: 0)
+    }
+    
     fileprivate func drawRect(view: UIView, at rect: CGRect, color: UIColor, type: RectangleType) {
         let shapeLayer: CAShapeLayer = CAShapeLayer()
         shapeLayer.path = type.rectPath(rect: rect,cornerRadius: frameCornerRadius)
@@ -309,7 +364,7 @@ extension FillableTextView: UITextViewDelegate {
     
     public func textViewDidChange(_ textView: UITextView) {
         if let updateTextSpace = textSpaces.first(where: {  $0.isNeedUpdatePlaceHolder }) {
-            fillableText = (fillableText as NSString?)?.replacingCharacters(in: updateTextSpace.range , with: updateTextSpace.replaceText)
+            fillableAttributedText = (fillableAttributedText as NSString?)?.replacingCharacters(in: updateTextSpace.range , with: updateTextSpace.replaceText)
         } else {
             if isNeedUpdateTextAttribute {
                 self.updateTextAttributes()

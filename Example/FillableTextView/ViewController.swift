@@ -16,10 +16,15 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         textView.text = "Once upon a time there[]adfasdf "
+        textView.placeHolderLength = 3
         textView.delegate = self
         textView.fillableTextViewDelegate = self
+        
+        
         japaneseTextView.text = "わたしは日本語 「」 すきです。"
+        japaneseTextView.placeHolderLength = 0
         japaneseTextView.delegate = self
         japaneseTextView.fillableTextViewDelegate = self
     }

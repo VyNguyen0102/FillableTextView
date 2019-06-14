@@ -35,7 +35,7 @@ extension FillableTextView {
         }
         let textSpace = textSpaces[index]
         
-        fillableText = (fillableText as NSString?)?.replacingCharacters(in: textSpace.textRange , with: value)
+        fillableAttributedText = (fillableAttributedText as NSString?)?.replacingCharacters(in: textSpace.textRange , with: value)
         self.textViewDidChange(self)
         self.isEditing = false
     }
