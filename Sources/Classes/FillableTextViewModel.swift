@@ -13,6 +13,30 @@ public enum BlankType {
     case line
 }
 
+public protocol FillableOptionItem {
+    func getText() -> String
+    func getValue() -> String
+}
+
+public struct SimpleFillableOptionItem: FillableOptionItem {
+    public let id: Int?
+    public let text: String
+    public init(text: String) {
+        self.id = nil
+        self.text = text
+    }
+    public init(id: Int?, text: String) {
+        self.id = id
+        self.text = text
+    }
+    public func getText() -> String {
+        return text
+    }
+    public func getValue() -> String {
+        return text
+    }
+}
+
 public struct TextSpace {
     let placeHolderLength: Int
     let range: NSRange

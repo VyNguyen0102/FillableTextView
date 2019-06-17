@@ -22,7 +22,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="shq-dG-rKa">
-                                <rect key="frame" x="20" y="40" width="335" height="350"/>
+                                <rect key="frame" x="20" y="40" width="335" height="400"/>
                                 <subviews>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ygV-nW-8Iw" customClass="FillableTextView" customModule="FillableTextView">
                                         <rect key="frame" x="0.0" y="0.0" width="335" height="300"/>
@@ -35,10 +35,10 @@
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="FaX-M6-efT" customClass="FillableTextView" customModule="FillableTextView">
-                                        <rect key="frame" x="0.0" y="300" width="335" height="50"/>
+                                        <rect key="frame" x="0.0" y="300" width="335" height="100"/>
                                         <color key="backgroundColor" red="1" green="0.8728361168455232" blue="0.76052914332728805" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="50" id="5El-Nz-eSR"/>
+                                            <constraint firstAttribute="height" constant="100" id="5El-Nz-eSR"/>
                                         </constraints>
                                         <color key="textColor" red="0.8980392157" green="0.0" blue="0.083400869089999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>

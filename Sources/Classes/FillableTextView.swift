@@ -10,8 +10,8 @@ import UIKit
 import CoreGraphics
 
 public protocol FillableTextViewDelegate: class {
-    func optionsForIndex(_ textView: FillableTextView, index: Int) -> [String: Any?]?
-    func didSelectOptionForIndex(_ textView: FillableTextView, index: Int, text: String, userData: Any?)
+    func optionsForIndex(_ textView: FillableTextView, index: Int) -> [FillableOptionItem]?
+    func didSelectOptionForIndex(_ textView: FillableTextView, index: Int, text: String, userData: FillableOptionItem)
     func textViewDidChangeText(_ textView: FillableTextView, index: Int, text: String, textSpace: TextSpace)
 }
 
@@ -28,6 +28,8 @@ public class FillableTextView: UITextView {
     
     @IBInspectable public var frameColor: UIColor = #colorLiteral(red: 0.1769979828, green: 0.1916395839, blue: 0.2129101933, alpha: 0.5)
     @IBInspectable public var frameSelectedColor: UIColor = #colorLiteral(red: 0.01680417731, green: 0.1983509958, blue: 1, alpha: 0.5)
+    @IBInspectable public var frameBackgroundColor: UIColor = #colorLiteral(red: 0.6654280845, green: 0.7198319385, blue: 0.7988672245, alpha: 0.5)
+    @IBInspectable public var frameSelectedBackgroundColor: UIColor = #colorLiteral(red: 0.4553515908, green: 0.5030726761, blue: 1, alpha: 0.5)
     @IBInspectable public var frameCornerRadius: CGFloat = 3.0
     @IBInspectable public var frameLineWidth: CGFloat = 1.0
     @IBInspectable public var frameHeightMultiple: CGFloat = 1.1
@@ -240,31 +242,31 @@ public class FillableTextView: UITextView {
         }
     }
 
-    fileprivate func drawRect(isEndEditing: Bool = false) {
+    func drawRect(isEndEditing: Bool = false) {
         for layer in rectLayers {
             layer.removeFromSuperlayer()
         }
         rectLayers.removeAll()
         for space in textSpaces {
-            let color = space.isInclude(range: self.selectedRange) ? frameSelectedColor : frameColor
+            let color = (!space.isInclude(range: self.selectedRange) || isEndEditing) ? frameColor : frameSelectedColor
+            let bgColor = (!space.isInclude(range: self.selectedRange) || isEndEditing) ? frameBackgroundColor : frameSelectedBackgroundColor
             for index in 0..<space.rects.count {
                 let rect = space.rects[index]
                 let type = RectangleType.init(index: index, itemCount: space.rects.count)
                 switch blankType {
                 case .box:
-                    drawRect(view: self, at: rect, color: color, type: type)
+                    drawRect(view: self, at: rect, color: color, bgColor: bgColor, type: type)
                 case .line:
-                    drawUnderLine(view: self, at: rect, color: color, type: type)
+                    drawUnderLine(view: self, at: rect, color: color, bgColor: bgColor, type: type)
                 }
             }
         }
     }
 
-    fileprivate func drawUnderLine(view: UIView, at rect: CGRect, color: UIColor, type: RectangleType) {
+    fileprivate func drawUnderLine(view: UIView, at rect: CGRect, color: UIColor, bgColor: UIColor, type: RectangleType) {
         let shapeLayer: CAShapeLayer = CAShapeLayer()
         shapeLayer.path = type.rectPath(rect: rect,cornerRadius: frameCornerRadius)
-        shapeLayer.fillColor = color.withAlphaComponent(0.1).cgColor
-        
+        shapeLayer.fillColor = bgColor.cgColor
         let path = UIBezierPath.init()
         path.move(to: CGPoint.init(x: rect.origin.x + frameCornerRadius, y: rect.origin.y + rect.height))
         path.addLine(to: CGPoint.init(x: rect.origin.x + rect.width - frameCornerRadius, y: rect.origin.y + rect.height))
@@ -282,12 +284,12 @@ public class FillableTextView: UITextView {
         view.layer.insertSublayer(shapeLayer, at: 0) //.addSublayer(shapeLayer, at: 0)
     }
     
-    fileprivate func drawRect(view: UIView, at rect: CGRect, color: UIColor, type: RectangleType) {
+    fileprivate func drawRect(view: UIView, at rect: CGRect, color: UIColor, bgColor: UIColor, type: RectangleType) {
         let shapeLayer: CAShapeLayer = CAShapeLayer()
         shapeLayer.path = type.rectPath(rect: rect,cornerRadius: frameCornerRadius)
         shapeLayer.strokeColor = color.cgColor
         shapeLayer.lineWidth = frameLineWidth
-        shapeLayer.fillColor = color.withAlphaComponent(0.1).cgColor
+        shapeLayer.fillColor = bgColor.cgColor
         for clipPath in type.clipRect(rect: rect) {
             let clipLayer: CAShapeLayer = CAShapeLayer()
             clipLayer.path = clipPath

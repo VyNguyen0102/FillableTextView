@@ -23,7 +23,7 @@ class ViewController: UIViewController {
         textView.fillableTextViewDelegate = self
         
         
-        japaneseTextView.text = "わたしは日本語 「」 すきです。"
+        japaneseTextView.text = "わたしは日本語「」すきです。「」"
         japaneseTextView.placeHolderLength = 0
         japaneseTextView.delegate = self
         japaneseTextView.fillableTextViewDelegate = self
@@ -47,17 +47,16 @@ extension ViewController: UITextViewDelegate {
 }
 
 extension ViewController: FillableTextViewDelegate {
-    func optionsForIndex(_ textView: FillableTextView, index: Int) -> [String : Any?]? {
-        if textView == japaneseTextView {
-            return ["を": false
-                ,"が": true
-                ,"も": false]
+
+    func optionsForIndex(_ textView: FillableTextView, index: Int) -> [FillableOptionItem]? {
+        if textView == japaneseTextView && index == 0 {
+            return ["を","が","も"].map({ SimpleFillableOptionItem.init(text: $0) })
         } else {
             return nil
         }
     }
     
-    func didSelectOptionForIndex(_ textView: FillableTextView, index: Int, text: String, userData: Any?) {
+    func didSelectOptionForIndex(_ textView: FillableTextView, index: Int, text: String, userData: FillableOptionItem) {
         print("didSelectOption \(text) with userData \(String(describing: userData))")
     }
     

@@ -9,22 +9,25 @@ import Foundation
 import UIKit
 
 extension FillableTextView {
-    public func showActionSheetAtIndex(_ index: Int, array: [String: Any?]) {
+    public func showActionSheetAtIndex(_ index: Int, array: [FillableOptionItem]) {
+        self.isEditable = false
         guard array.count > 0 else {
             return
         }
         let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         for item in array {
-            let deleteAction = UIAlertAction(title: item.key, style: .default, handler: {
+            let deleteAction = UIAlertAction(title: item.getText(), style: .default, handler: {
                 (alert: UIAlertAction!) -> Void in
-                self.setValueForIndex(index, value: item.key)
-                self.fillableTextViewDelegate?.didSelectOptionForIndex(self, index: index, text: item.key, userData: item.value)
+                self.setValueForIndex(index, value: item.getText())
+                self.fillableTextViewDelegate?.didSelectOptionForIndex(self, index: index, text: item.getValue(), userData: item)
+                self.drawRect(isEndEditing: true)
             })
             optionMenu.addAction(deleteAction)
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: {
             (alert: UIAlertAction!) -> Void in
             self.isEditing = false
+            self.drawRect(isEndEditing: true)
         })
         optionMenu.addAction(cancelAction)
         self.parentViewController?.present(optionMenu, animated: true, completion: nil)
