@@ -19,11 +19,13 @@ class ViewController: UIViewController {
         
         textView.text = "Once upon a time there[]adfasdf "
         textView.placeHolderLength = 3
+        textView.blankType = .line
         textView.delegate = self
         textView.fillableTextViewDelegate = self
         
         
         japaneseTextView.text = "わたしは日本語「」すきです。「」"
+        japaneseTextView.blankType = .box
         japaneseTextView.placeHolderLength = 0
         japaneseTextView.delegate = self
         japaneseTextView.fillableTextViewDelegate = self

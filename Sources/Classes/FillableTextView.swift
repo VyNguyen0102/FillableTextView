@@ -28,14 +28,18 @@ public class FillableTextView: UITextView {
     
     @IBInspectable public var frameColor: UIColor = #colorLiteral(red: 0.1769979828, green: 0.1916395839, blue: 0.2129101933, alpha: 0.5)
     @IBInspectable public var frameSelectedColor: UIColor = #colorLiteral(red: 0.01680417731, green: 0.1983509958, blue: 1, alpha: 0.5)
-    @IBInspectable public var frameBackgroundColor: UIColor = #colorLiteral(red: 0.6654280845, green: 0.7198319385, blue: 0.7988672245, alpha: 0.5)
-    @IBInspectable public var frameSelectedBackgroundColor: UIColor = #colorLiteral(red: 0.4553515908, green: 0.5030726761, blue: 1, alpha: 0.5)
+    @IBInspectable public var frameBackgroundColor: UIColor = #colorLiteral(red: 0.77581623, green: 0.8399931859, blue: 0.9332263616, alpha: 0.5)
+    @IBInspectable public var frameSelectedBackgroundColor: UIColor = #colorLiteral(red: 0.01680417731, green: 0.1983509958, blue: 1, alpha: 0.09738869863)
     @IBInspectable public var frameCornerRadius: CGFloat = 3.0
     @IBInspectable public var frameLineWidth: CGFloat = 1.0
     @IBInspectable public var frameHeightMultiple: CGFloat = 1.1
     @IBInspectable public var fillTextColor: UIColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
     
-    public var blankType: BlankType = .line
+    public var blankType: BlankType = .box {
+        didSet {
+            self.drawRect()
+        }
+    }
     
     public weak var fillableTextViewDelegate: FillableTextViewDelegate?
     
