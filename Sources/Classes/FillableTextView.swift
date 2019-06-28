@@ -17,6 +17,8 @@ public protocol FillableTextViewDelegate: class {
 
 public class FillableTextView: UITextView {
     
+    @IBInspectable public var maxLengh: Int = 15
+    
     @IBInspectable public var beginChar: String = "["
     @IBInspectable public var endChar: String = "]"
     
@@ -401,7 +403,18 @@ extension FillableTextView: UITextViewDelegate {
         } else if (text.count > 0) {
             let (isEditable, isNeedUpdateTextAttribute) = textSpaces.isEditable(range: range)
             self.isNeedUpdateTextAttribute = isNeedUpdateTextAttribute
-            return isEditable
+            // Check length
+            guard let space = textSpaces.getItemAt(range: self.selectedRange),
+                let textViewText = textView.text,
+                let rangeOfTextToReplace = Range(range, in: textViewText) else {
+                return false
+            }
+            let substringToReplace = textViewText[rangeOfTextToReplace]
+            let count = space.text.count + text.count - substringToReplace.count
+            if !isEditable || count > self.maxLengh {
+                return false
+            }
+            return delegateInterceptor?.textView?(textView, shouldChangeTextIn: range, replacementText: text) ?? true
         }
         return false
     }
